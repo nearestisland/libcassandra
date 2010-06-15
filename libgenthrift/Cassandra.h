@@ -1074,7 +1074,7 @@ class Cassandra_insert_args {
  public:
 
   Cassandra_insert_args() : keyspace(""), key(""), value(""), timestamp(0) {
-    consistency_level = (ConsistencyLevel)0;
+    consistency_level = (ConsistencyLevel)1;
 
   }
 
@@ -1196,7 +1196,7 @@ class Cassandra_batch_insert_args {
  public:
 
   Cassandra_batch_insert_args() : keyspace(""), key("") {
-    consistency_level = (ConsistencyLevel)0;
+    consistency_level = (ConsistencyLevel)1;
 
   }
 
@@ -1310,7 +1310,7 @@ class Cassandra_remove_args {
  public:
 
   Cassandra_remove_args() : keyspace(""), key(""), timestamp(0) {
-    consistency_level = (ConsistencyLevel)0;
+    consistency_level = (ConsistencyLevel)1;
 
   }
 
@@ -1433,7 +1433,7 @@ class Cassandra_batch_mutate_args {
  public:
 
   Cassandra_batch_mutate_args() : keyspace("") {
-    consistency_level = (ConsistencyLevel)0;
+    consistency_level = (ConsistencyLevel)1;
 
   }
 
@@ -2015,15 +2015,19 @@ class Cassandra_describe_ring_result {
   virtual ~Cassandra_describe_ring_result() throw() {}
 
   std::vector<TokenRange>  success;
+  InvalidRequestException ire;
 
   struct __isset {
-    __isset() : success(false) {}
+    __isset() : success(false), ire(false) {}
     bool success;
+    bool ire;
   } __isset;
 
   bool operator == (const Cassandra_describe_ring_result & rhs) const
   {
     if (!(success == rhs.success))
+      return false;
+    if (!(ire == rhs.ire))
       return false;
     return true;
   }
@@ -2045,10 +2049,12 @@ class Cassandra_describe_ring_presult {
   virtual ~Cassandra_describe_ring_presult() throw() {}
 
   std::vector<TokenRange> * success;
+  InvalidRequestException ire;
 
   struct __isset {
-    __isset() : success(false) {}
+    __isset() : success(false), ire(false) {}
     bool success;
+    bool ire;
   } __isset;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);

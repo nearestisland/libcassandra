@@ -4634,6 +4634,14 @@ uint32_t Cassandra_describe_ring_result::read(::apache::thrift::protocol::TProto
           xfer += iprot->skip(ftype);
         }
         break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->ire.read(iprot);
+          this->__isset.ire = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -4663,6 +4671,10 @@ uint32_t Cassandra_describe_ring_result::write(::apache::thrift::protocol::TProt
       }
       xfer += oprot->writeListEnd();
     }
+    xfer += oprot->writeFieldEnd();
+  } else if (this->__isset.ire) {
+    xfer += oprot->writeFieldBegin("ire", ::apache::thrift::protocol::T_STRUCT, 1);
+    xfer += this->ire.write(oprot);
     xfer += oprot->writeFieldEnd();
   }
   xfer += oprot->writeFieldStop();
@@ -4706,6 +4718,14 @@ uint32_t Cassandra_describe_ring_presult::read(::apache::thrift::protocol::TProt
             iprot->readListEnd();
           }
           this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->ire.read(iprot);
+          this->__isset.ire = true;
         } else {
           xfer += iprot->skip(ftype);
         }
@@ -6407,6 +6427,9 @@ void CassandraClient::recv_describe_ring(std::vector<TokenRange> & _return)
     // _return pointer has now been filled
     return;
   }
+  if (result.__isset.ire) {
+    throw result.ire;
+  }
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "describe_ring failed: unknown result");
 }
 
@@ -7170,6 +7193,9 @@ void CassandraProcessor::process_describe_ring(int32_t seqid, ::apache::thrift::
   try {
     iface_->describe_ring(result.success, args.keyspace);
     result.__isset.success = true;
+  } catch (InvalidRequestException &ire) {
+    result.ire = ire;
+    result.__isset.ire = true;
   } catch (const std::exception& e) {
     ::apache::thrift::TApplicationException x(e.what());
     oprot->writeMessageBegin("describe_ring", ::apache::thrift::protocol::T_EXCEPTION, seqid);
