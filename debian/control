@@ -1,0 +1,11 @@
+Source: libcassandra
+Section: devel
+Priority: extra
+Build-Depends: debhelper (>= 5), build-essential, autoconf, automake, pkg-config, libtool
+Maintainer: Brian McKinney <brianm@nearestisland.com>
+Standards-Version: 3.7.2
+
+Package: libcassandra
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libthrift0
+Description: A high level C++ client for Cassandra

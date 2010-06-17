@@ -1,0 +1,5 @@
+libcassandra (0.1) stable; urgency=low
+
+  * Initial release of debian package
+
+ -- Brian McKinney <brianm@nearestisland.com>  Tue, 15 Jun 2010 15:22:57 -0700
